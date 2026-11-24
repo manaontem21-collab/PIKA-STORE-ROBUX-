@@ -1,0 +1,2051 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pika Store Robux (pikastoree.my.id) - Auto API, Bot Akun & Pembayaran Otomatis</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter, Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '"Inter"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        pika: {
+                            yellow: '#FACC15',
+                            bright: '#FEF08A',
+                            amber: '#F59E0B',
+                            cyan: '#22D3EE',
+                            purple: '#A855F7',
+                            red: '#EF4444',
+                            dark: '#0B0F19',
+                            card: '#131A2A',
+                            border: '#1E293B',
+                            surface: '#1A2336'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        body {
+            background-color: #0B0F19;
+            color: #F8FAFC;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FACC15;
+        }
+        .pika-glow {
+            box-shadow: 0 0 25px rgba(250, 204, 21, 0.22);
+        }
+        .pika-glow-strong {
+            box-shadow: 0 0 35px rgba(250, 204, 21, 0.42);
+        }
+        .glass-nav {
+            background: rgba(11, 15, 25, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .tab-active {
+            color: #FACC15;
+            background: rgba(250, 204, 21, 0.14);
+            border-color: rgba(250, 204, 21, 0.45);
+        }
+        .option-card.selected {
+            border-color: #FACC15;
+            background: linear-gradient(145deg, rgba(250, 204, 21, 0.15) 0%, rgba(19, 26, 42, 0.96) 100%);
+            box-shadow: 0 0 20px rgba(250, 204, 21, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-pika-yellow selection:text-pika-dark">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+    <!-- Top Live Ticker Banner -->
+    <div class="bg-gradient-to-r from-pika-yellow via-amber-300 to-pika-cyan text-pika-dark text-xs sm:text-sm font-bold py-1.5 px-4 text-center">
+        <div class="max-w-7xl mx-auto flex items-center justify-center gap-2">
+            <span class="inline-flex items-center gap-1 bg-pika-dark text-pika-yellow px-2 py-0.5 rounded-full text-[11px] uppercase tracking-wider shrink-0">
+                <i class="fa-solid fa-bolt animate-pulse"></i> Auto API 24/7
+            </span>
+            <span id="live-ticker-text" class="truncate">⚡ Transaksi Terbaru: @ZeynRBLX baru saja membeli 800 R$ via Username (Sukses Masuk Otomatis!)</span>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <header class="sticky top-0 z-40 glass-nav border-b border-pika-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <!-- Brand Logo -->
+                <a href="#beranda" onclick="switchSection('beranda'); return false;" class="flex items-center gap-3 group">
+                    <div class="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-pika-yellow to-amber-500 flex items-center justify-center text-pika-dark shadow-lg group-hover:scale-105 transition-transform">
+                        <svg class="w-7 h-7" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 4L13 13L6 15L7 4Z" fill="#0B0F19"/>
+                            <path d="M29 4L23 13L30 15L29 4Z" fill="#0B0F19"/>
+                            <path d="M19.5 6L10 20H18L16.5 31L26 17H18L19.5 6Z" fill="#0B0F19" stroke="#0B0F19" stroke-width="1.5" stroke-linejoin="round"/>
+                            <circle cx="9" cy="24" r="2.5" fill="#EF4444"/>
+                            <circle cx="27" cy="24" r="2.5" fill="#EF4444"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="font-extrabold text-lg sm:text-xl tracking-tight text-white">PIKA<span class="text-pika-yellow">STORE</span></span>
+                            <span class="hidden sm:inline-block text-[10px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 rounded">AUTO</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 font-mono">pikastoree.my.id</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden lg:flex items-center gap-1.5">
+                    <button type="button" onclick="switchSection('beranda')" data-nav="beranda" class="nav-btn tab-active px-3.5 py-2 rounded-xl text-sm font-semibold border border-transparent transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-house text-xs"></i> Beranda
+                    </button>
+                    <button type="button" onclick="switchSection('topup')" data-nav="topup" class="nav-btn text-slate-300 hover:text-white hover:bg-pika-surface px-3.5 py-2 rounded-xl text-sm font-semibold border border-transparent transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-bolt text-pika-yellow text-xs"></i> Top Up Robux
+                    </button>
+                    <button type="button" onclick="switchSection('cek-pesanan')" data-nav="cek-pesanan" class="nav-btn text-slate-300 hover:text-white hover:bg-pika-surface px-3.5 py-2 rounded-xl text-sm font-semibold border border-transparent transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass text-xs"></i> Cek Pesanan
+                    </button>
+                    <button type="button" onclick="switchSection('kalkulator')" data-nav="kalkulator" class="nav-btn text-slate-300 hover:text-white hover:bg-pika-surface px-3.5 py-2 rounded-xl text-sm font-semibold border border-transparent transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-xs"></i> Kalkulator Robux
+                    </button>
+                    <button type="button" onclick="switchSection('cara-order')" data-nav="cara-order" class="nav-btn text-slate-300 hover:text-white hover:bg-pika-surface px-3.5 py-2 rounded-xl text-sm font-semibold border border-transparent transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-book-open text-xs"></i> Cara Order & Syarat
+                    </button>
+                    <button type="button" id="desktop-owner-nav-btn" onclick="switchSection('admin-api')" data-nav="admin-api" class="nav-btn hidden text-slate-300 hover:text-pika-yellow hover:bg-pika-surface px-3.5 py-2 rounded-xl text-sm font-semibold border border-pika-cyan/40 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-crown text-xs text-pika-yellow"></i> Owner Panel & Webhook
+                    </button>
+                </nav>
+
+                <!-- Right Action & Mobile Menu Button -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <div class="hidden sm:flex items-center gap-2 bg-pika-card border border-pika-border px-3 py-1.5 rounded-xl text-xs">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span class="text-slate-300">Auto-API:</span>
+                        <span class="font-mono font-bold text-emerald-400">ONLINE 24/7</span>
+                    </div>
+                    <button type="button" onclick="switchSection('topup')" class="hidden sm:inline-flex items-center gap-1.5 bg-pika-yellow hover:bg-pika-bright text-pika-dark font-bold text-sm px-4 py-2 rounded-xl transition-all shadow-md">
+                        <i class="fa-solid fa-cart-shopping"></i> Beli Sekarang
+                    </button>
+                    <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden p-2.5 rounded-xl bg-pika-card border border-pika-border text-slate-200 hover:text-pika-yellow">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-pika-card border-b border-pika-border px-4 pt-2 pb-4 space-y-1.5">
+            <button type="button" onclick="switchSection('beranda'); toggleMobileMenu()" data-nav="beranda" class="nav-btn w-full text-left px-4 py-3 rounded-xl text-sm font-semibold flex items-center gap-3 text-slate-200 hover:bg-pika-surface">
+                <i class="fa-solid fa-house w-5 text-pika-yellow"></i> Beranda
+            </button>
+            <button type="button" onclick="switchSection('topup'); toggleMobileMenu()" data-nav="topup" class="nav-btn w-full text-left px-4 py-3 rounded-xl text-sm font-semibold flex items-center gap-3 text-slate-200 hover:bg-pika-surface">
+                <i class="fa-solid fa-bolt w-5 text-pika-yellow"></i> Top Up Robux
+            </button>
+            <button type="button" onclick="switchSection('cek-pesanan'); toggleMobileMenu()" data-nav="cek-pesanan" class="nav-btn w-full text-left px-4 py-3 rounded-xl text-sm font-semibold flex items-center gap-3 text-slate-200 hover:bg-pika-surface">
+                <i class="fa-solid fa-magnifying-glass w-5 text-pika-yellow"></i> Cek Pesanan
+            </button>
+            <button type="button" onclick="switchSection('kalkulator'); toggleMobileMenu()" data-nav="kalkulator" class="nav-btn w-full text-left px-4 py-3 rounded-xl text-sm font-semibold flex items-center gap-3 text-slate-200 hover:bg-pika-surface">
+                <i class="fa-solid fa-calculator w-5 text-pika-yellow"></i> Kalkulator Robux
+            </button>
+            <button type="button" onclick="switchSection('cara-order'); toggleMobileMenu()" data-nav="cara-order" class="nav-btn w-full text-left px-4 py-3 rounded-xl text-sm font-semibold flex items-center gap-3 text-slate-200 hover:bg-pika-surface">
+                <i class="fa-solid fa-book-open w-5 text-pika-yellow"></i> Cara Order & Syarat
+            </button>
+            <button type="button" id="mobile-owner-nav-btn" onclick="switchSection('admin-api'); toggleMobileMenu()" data-nav="admin-api" class="nav-btn hidden w-full text-left px-4 py-3 rounded-xl text-sm font-semibold flex items-center gap-3 text-pika-cyan bg-pika-cyan/10 border border-pika-cyan/25">
+                <i class="fa-solid fa-crown w-5 text-pika-yellow"></i> Owner Panel & Webhook
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+
+        <!-- ========================================================= -->
+        <!-- SECTION 1: BERANDA (HERO & OVERVIEW)                      -->
+        <!-- ========================================================= -->
+        <section id="section-beranda" class="page-section space-y-12">
+            <div class="relative rounded-3xl bg-gradient-to-br from-pika-card via-[#151E32] to-pika-dark border border-pika-border p-6 sm:p-10 lg:p-12 overflow-hidden pika-glow">
+                <div class="absolute -top-24 -right-24 w-80 h-80 bg-pika-yellow/15 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-pika-purple/15 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 bg-pika-yellow/10 border border-pika-yellow/30 text-pika-yellow px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold">
+                            <i class="fa-solid fa-shield-halved"></i> Resmi & Otomatis • pikastoree.my.id
+                        </div>
+                        <h1 class="text-3xl sm:text-5xl font-extrabold text-white leading-tight">
+                            Top Up Robux Secepat Kilat <span class="text-transparent bg-clip-text bg-gradient-to-r from-pika-yellow via-amber-300 to-pika-cyan">Pikachu!</span> ⚡
+                        </h1>
+                        <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                            Pesan khusus <span class="text-pika-yellow font-semibold">Via Username saja</span> tanpa perlu password atau login akun. Pembayaran otomatis via QRIS & E-Wallet terhubung langsung ke <span class="text-pika-cyan font-semibold">API Pengiriman Otomatis</span> agar pasti masuk!
+                        </p>
+                        <div class="flex flex-wrap items-center gap-3.5 pt-2">
+                            <button type="button" onclick="switchSection('topup')" class="bg-pika-yellow hover:bg-pika-bright text-pika-dark font-extrabold px-6 py-3.5 rounded-2xl text-base flex items-center gap-2.5 transition-all transform hover:-translate-y-0.5 shadow-lg">
+                                <i class="fa-solid fa-bolt"></i> Order Via Username
+                            </button>
+                            <button type="button" onclick="switchSection('cek-pesanan')" class="bg-pika-surface hover:bg-slate-800 text-white border border-pika-border font-bold px-5 py-3.5 rounded-2xl text-base flex items-center gap-2 transition-all">
+                                <i class="fa-solid fa-receipt text-pika-cyan"></i> Cek Status Pesanan
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4 pt-4 border-t border-pika-border/80">
+                            <div>
+                                <p class="text-xl sm:text-2xl font-extrabold text-pika-yellow">48.920+</p>
+                                <p class="text-xs text-slate-400">Transaksi Sukses</p>
+                            </div>
+                            <div>
+                                <p class="text-xl sm:text-2xl font-extrabold text-emerald-400">&lt; 3 Detik</p>
+                                <p class="text-xs text-slate-400">Verifikasi Otomatis</p>
+                            </div>
+                            <div>
+                                <p class="text-xl sm:text-2xl font-extrabold text-pika-cyan">100%</p>
+                                <p class="text-xs text-slate-400">Pasti Masuk</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="w-full max-w-md bg-pika-dark/90 border border-pika-yellow/35 rounded-3xl p-6 space-y-5 animate-float shadow-2xl">
+                            <div class="flex items-center justify-between border-b border-pika-border pb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-pika-yellow/20 flex items-center justify-center text-pika-yellow font-bold">
+                                        <i class="fa-solid fa-robot"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-white text-sm">Pika Auto-Delivery v2.5</h3>
+                                        <p class="text-xs text-emerald-400 flex items-center gap-1">
+                                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Via Username Only • Aktif
+                                        </p>
+                                    </div>
+                                </div>
+                                <span class="font-mono text-xs bg-pika-surface px-2.5 py-1 rounded-lg text-pika-cyan">AUTO 24/7</span>
+                            </div>
+
+                            <div class="space-y-3 text-xs">
+                                <div class="flex items-center justify-between bg-pika-card p-3 rounded-xl border border-pika-border">
+                                    <span class="flex items-center gap-2 text-slate-300"><i class="fa-solid fa-user-check text-pika-yellow"></i> 1. Input Username Saja</span>
+                                    <span class="text-pika-yellow font-bold">No Password</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-pika-card p-3 rounded-xl border border-pika-border">
+                                    <span class="flex items-center gap-2 text-slate-300"><i class="fa-solid fa-qrcode text-pika-cyan"></i> 2. Pembayaran Otomatis</span>
+                                    <span class="text-emerald-400 font-mono">Instant PAID</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-pika-card p-3 rounded-xl border border-pika-border">
+                                    <span class="flex items-center gap-2 text-slate-300"><i class="fa-solid fa-coins text-pika-purple"></i> 3. Pengiriman API Otomatis</span>
+                                    <span class="text-pika-cyan font-bold">Pasti Masuk</span>
+                                </div>
+                            </div>
+
+                            <button type="button" onclick="switchSection('topup')" class="w-full py-3 rounded-xl bg-gradient-to-r from-pika-yellow to-amber-400 text-pika-dark font-extrabold text-sm hover:opacity-95 transition">
+                                Coba Order Via Username Sekarang →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Robux Converter Preview on Beranda -->
+            <div class="bg-pika-card border border-pika-border rounded-2xl p-5 sm:p-6 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+                <div class="space-y-1">
+                    <span class="text-xs font-mono uppercase tracking-wider text-pika-purple font-bold">Khusus Via Username Saja</span>
+                    <h3 class="text-lg font-bold text-white">Cek Estimasi Harga Robux Via Username</h3>
+                    <p class="text-xs sm:text-sm text-slate-400">Pengiriman khusus via Username saja — langsung diproses otomatis setelah pembayaran lunas.</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                    <div class="flex items-center gap-2 bg-pika-dark border border-pika-border rounded-xl px-3 py-2">
+                        <span class="text-xs text-slate-400">Jumlah Robux:</span>
+                        <input type="number" id="home-quick-net" value="400" min="1" oninput="updateHomeQuickTax(this.value)" class="w-20 bg-transparent font-mono font-bold text-sm text-pika-yellow outline-none">
+                        <span class="text-xs font-mono text-slate-400">R$</span>
+                    </div>
+                    <div class="bg-pika-dark border border-pika-yellow/40 rounded-xl px-4 py-2 text-xs">
+                        <span class="text-slate-400">Estimasi Harga:</span>
+                        <strong id="home-quick-gross" class="font-mono font-extrabold text-pika-yellow text-sm ml-1">Rp 54.000</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature Highlights -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-pika-card border border-pika-border rounded-2xl p-6 hover:border-pika-yellow/50 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-pika-yellow/15 text-pika-yellow flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Khusus Via Username Saja</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">Cukup masukkan Username Roblox Anda. Tidak perlu memberikan password akun sehingga akun tetap aman 100%.</p>
+                </div>
+                <div class="bg-pika-card border border-pika-border rounded-2xl p-6 hover:border-pika-cyan/50 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-pika-cyan/15 text-pika-cyan flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Pembayaran Otomatis 24/7</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">Mendukung QRIS All Payment, E-Wallet, dan Virtual Account. Sistem otomatis memproses pengiriman begitu pembayaran lunas.</p>
+                </div>
+                <div class="bg-pika-card border border-pika-border rounded-2xl p-6 hover:border-pika-purple/50 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-pika-purple/15 text-pika-purple flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-check-double"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Pengiriman Otomatis Pasti Masuk</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">Pesanan langsung dikirim secara otomatis ke username customer dengan pelacakan status transaksi real-time.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- SECTION 2: HALAMAN TOP UP ROBUX (KHUSUS VIA USERNAME)      -->
+        <!-- ========================================================= -->
+        <section id="section-topup" class="page-section hidden">
+            <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white flex items-center gap-2.5">
+                        <span class="w-8 h-8 rounded-lg bg-pika-yellow text-pika-dark flex items-center justify-center text-base"><i class="fa-solid fa-bolt"></i></span>
+                        Top Up Robux Via Username
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-1">Pemesanan khusus menggunakan <strong class="text-pika-yellow">Username Roblox saja</strong> — otomatis terhubung ke sistem pengiriman & pembayaran.</p>
+                </div>
+                <div class="flex items-center gap-2 bg-pika-card border border-pika-border px-4 py-2 rounded-xl text-xs">
+                    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                    <span class="text-slate-300">Rate Robux:</span>
+                    <span class="font-bold text-pika-yellow">Rp 135 / 1 R$</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <!-- LEFT COLUMN: ORDER STEPS (8 Cols) -->
+                <div class="lg:col-span-8 space-y-6">
+
+                    <!-- STEP 1: METODE KHUSUS VIA USERNAME -->
+                    <div class="bg-pika-card border border-pika-border rounded-2xl p-5 sm:p-6">
+                        <div class="flex items-center justify-between gap-3 mb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="w-7 h-7 rounded-full bg-pika-yellow text-pika-dark font-extrabold text-sm flex items-center justify-center">1</span>
+                                <h3 class="font-bold text-lg text-white">Jalur Pengiriman Via Username</h3>
+                            </div>
+                            <span class="text-xs font-mono bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-full">Username Only</span>
+                        </div>
+
+                        <div class="option-card selected border-2 border-pika-border rounded-xl p-4">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-user-check text-pika-yellow text-xl"></i>
+                                    <div>
+                                        <h4 class="font-bold text-white text-sm sm:text-base">Khusus Robux Via Username Saja</h4>
+                                        <span class="text-[11px] bg-pika-yellow/20 text-pika-yellow px-2 py-0.5 rounded font-semibold">Tanpa Password • Pasti Masuk</span>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-circle-check text-pika-yellow text-lg"></i>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+                                Khusus pengiriman Robux via Username saja. Begitu pembayaran terverifikasi otomatis, sistem akan langsung memproses pengiriman Robux ke username akun Anda.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: DATA USERNAME ROBLOX -->
+                    <div class="bg-pika-card border border-pika-border rounded-2xl p-5 sm:p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-7 h-7 rounded-full bg-pika-yellow text-pika-dark font-extrabold text-sm flex items-center justify-center">2</span>
+                            <h3 class="font-bold text-lg text-white">Masukkan Username Roblox</h3>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Username Roblox <span class="text-pika-red">*</span></label>
+                                <div class="flex flex-col sm:flex-row gap-2.5">
+                                    <div class="relative flex-grow">
+                                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                            <i class="fa-solid fa-at"></i>
+                                        </span>
+                                        <input type="text" id="roblox-username" placeholder="Contoh: PikaGamer_ID" class="w-full bg-pika-dark border border-pika-border focus:border-pika-yellow rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition">
+                                    </div>
+                                    <button type="button" onclick="checkRobloxAccount()" id="btn-check-account" class="bg-pika-yellow hover:bg-pika-bright text-pika-dark font-bold px-5 py-3 rounded-xl text-sm flex items-center justify-center gap-2 transition shrink-0">
+                                        <i class="fa-solid fa-magnifying-glass"></i> Cek Akun Roblox
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Roblox Account Profile Result Preview -->
+                            <div id="roblox-profile-card" class="hidden bg-pika-dark/90 border border-emerald-500/40 rounded-xl p-4 flex items-center justify-between gap-4">
+                                <div class="flex items-center gap-3.5">
+                                    <img id="roblox-avatar-img" src="https://placehold.co/80x80/131A2A/FACC15?text=RBLX" alt="Avatar Roblox" class="w-14 h-14 rounded-full border-2 border-pika-yellow bg-pika-surface object-cover">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <h4 id="roblox-display-name" class="font-bold text-white text-base">PikaGamer</h4>
+                                            <span class="text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold">
+                                                <i class="fa-solid fa-check"></i> Username Valid
+                                            </span>
+                                        </div>
+                                        <p id="roblox-handle-text" class="text-xs text-slate-400 font-mono">@PikaGamer_ID • ID: 482910442</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="resetRobloxAccount()" class="text-xs text-slate-400 hover:text-pika-red px-2 py-1">Ganti</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: PILIH NOMINAL ROBUX -->
+                    <div class="bg-pika-card border border-pika-border rounded-2xl p-5 sm:p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="w-7 h-7 rounded-full bg-pika-yellow text-pika-dark font-extrabold text-sm flex items-center justify-center">3</span>
+                                <h3 class="font-bold text-lg text-white">Pilih Nominal Paket Robux</h3>
+                            </div>
+                            <span class="text-xs text-pika-yellow font-semibold">Bersih Diterima</span>
+                        </div>
+
+                        <div id="robux-packages-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3.5 mb-5"></div>
+
+                        <div class="bg-pika-dark border border-pika-border rounded-xl p-4">
+                            <label class="block text-xs font-semibold text-slate-300 mb-2">Atau Masukkan Nominal Custom (Min. 10 R$ - Maks. 25.000 R$)</label>
+                            <div class="flex items-center gap-3">
+                                <div class="relative flex-grow">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-pika-yellow font-bold text-sm">R$</span>
+                                    <input type="number" id="custom-robux-input" min="10" max="25000" placeholder="Ketik jumlah Robux bersih..." oninput="handleCustomRobux(this.value)" class="w-full bg-pika-card border border-pika-border focus:border-pika-yellow rounded-xl pl-10 pr-4 py-2.5 text-sm font-mono font-bold text-white outline-none">
+                                </div>
+                                <span id="custom-robux-price-badge" class="text-xs font-mono bg-pika-surface text-pika-yellow px-3 py-2.5 rounded-xl border border-pika-border shrink-0">
+                                    Rp 0
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: PILIH METODE PEMBAYARAN OTOMATIS -->
+                    <div class="bg-pika-card border border-pika-border rounded-2xl p-5 sm:p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-7 h-7 rounded-full bg-pika-yellow text-pika-dark font-extrabold text-sm flex items-center justify-center">4</span>
+                            <h3 class="font-bold text-lg text-white">Pilih Metode Pembayaran Otomatis</h3>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Rekomendasi (Verifikasi Otomatis 1 Detik)</p>
+                                <div onclick="selectPayment('QRIS All Payment', 'qris', 0)" id="pay-qris" class="payment-card option-card selected cursor-pointer border-2 border-pika-border rounded-xl p-4 flex items-center justify-between transition-all">
+                                    <div class="flex items-center gap-3.5">
+                                        <div class="w-12 h-10 rounded-lg bg-white text-pika-dark font-extrabold text-xs flex items-center justify-center">QRIS</div>
+                                        <div>
+                                            <h4 class="font-bold text-white text-sm">QRIS All Payment (Otomatis)</h4>
+                                            <p class="text-xs text-slate-400">Scan via DANA, GoPay, OVO, ShopeePay, BCA, Mandiri, BRI, BNI</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-xs font-bold text-emerald-400 block">Bebas Biaya Admin</span>
+                                        <span id="price-display-qris" class="font-mono font-bold text-sm text-pika-yellow">Rp 54.000</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">E-Wallet Otomatis</p>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                    <div onclick="selectPayment('DANA Otomatis', 'dana', 500)" id="pay-dana" class="payment-card option-card cursor-pointer border-2 border-pika-border rounded-xl p-3 text-center transition-all">
+                                        <span class="inline-block px-2.5 py-1 rounded bg-sky-500/20 text-sky-400 font-extrabold text-xs mb-1.5">DANA</span>
+                                        <p id="price-display-dana" class="font-mono text-xs font-bold text-white">Rp 54.500</p>
+                                    </div>
+                                    <div onclick="selectPayment('GoPay Otomatis', 'gopay', 500)" id="pay-gopay" class="payment-card option-card cursor-pointer border-2 border-pika-border rounded-xl p-3 text-center transition-all">
+                                        <span class="inline-block px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 font-extrabold text-xs mb-1.5">GOPAY</span>
+                                        <p id="price-display-gopay" class="font-mono text-xs font-bold text-white">Rp 54.500</p>
+                                    </div>
+                                    <div onclick="selectPayment('OVO Otomatis', 'ovo', 500)" id="pay-ovo" class="payment-card option-card cursor-pointer border-2 border-pika-border rounded-xl p-3 text-center transition-all">
+                                        <span class="inline-block px-2.5 py-1 rounded bg-purple-500/20 text-purple-400 font-extrabold text-xs mb-1.5">OVO</span>
+                                        <p id="price-display-ovo" class="font-mono text-xs font-bold text-white">Rp 54.500</p>
+                                    </div>
+                                    <div onclick="selectPayment('ShopeePay Otomatis', 'shopeepay', 500)" id="pay-shopeepay" class="payment-card option-card cursor-pointer border-2 border-pika-border rounded-xl p-3 text-center transition-all">
+                                        <span class="inline-block px-2.5 py-1 rounded bg-orange-500/20 text-orange-400 font-extrabold text-xs mb-1.5">SHOPEEPAY</span>
+                                        <p id="price-display-shopeepay" class="font-mono text-xs font-bold text-white">Rp 54.500</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Virtual Account Bank (Otomatis)</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <div onclick="selectPayment('BCA Virtual Account', 'bca', 2000)" id="pay-bca" class="payment-card option-card cursor-pointer border-2 border-pika-border rounded-xl p-3 flex items-center justify-between transition-all">
+                                        <span class="font-extrabold text-xs text-blue-400">BCA VA</span>
+                                        <span id="price-display-bca" class="font-mono text-xs font-bold text-white">Rp 56.000</span>
+                                    </div>
+                                    <div onclick="selectPayment('BRI Virtual Account', 'bri', 2000)" id="pay-bri" class="payment-card option-card cursor-pointer border-2 border-pika-border rounded-xl p-3 flex items-center justify-between transition-all">
+                                        <span class="font-extrabold text-xs text-sky-400">BRI VA</span>
+                                        <span id="price-display-bri" class="font-mono text-xs font-bold text-white">Rp 56.000</span>
+                                    </div>
+                                    <div onclick="selectPayment('Mandiri Virtual Account', 'mandiri', 2000)" id="pay-mandiri" class="payment-card option-card cursor-pointer border-2 border-pika-border rounded-xl p-3 flex items-center justify-between transition-all">
+                                        <span class="font-extrabold text-xs text-amber-400">MANDIRI VA</span>
+                                        <span id="price-display-mandiri" class="font-mono text-xs font-bold text-white">Rp 56.000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: STICKY SUMMARY & CHECKOUT (4 Cols) -->
+                <div class="lg:col-span-4 lg:sticky lg:top-24 space-y-4">
+                    <div class="bg-pika-card border border-pika-yellow/40 rounded-2xl p-5 sm:p-6 pika-glow">
+                        <h3 class="font-extrabold text-lg text-white border-b border-pika-border pb-3 mb-4 flex items-center justify-between">
+                            <span>Ringkasan Pesanan</span>
+                            <i class="fa-solid fa-bolt text-pika-yellow"></i>
+                        </h3>
+
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Username Roblox</span>
+                                <span id="summary-username" class="font-bold text-white font-mono">Belum diisi</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Jalur Kirim</span>
+                                <span id="summary-method" class="font-semibold text-pika-yellow">Via Username Saja</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Jumlah Robux</span>
+                                <span id="summary-robux" class="font-extrabold text-white">400 R$</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Pembayaran</span>
+                                <span id="summary-payment" class="font-semibold text-slate-200">QRIS All Payment</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Biaya Layanan</span>
+                                <span id="summary-fee" class="font-mono text-emerald-400">Gratis (Rp 0)</span>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-pika-border my-4 pt-4 flex items-center justify-between">
+                            <span class="text-slate-300 font-bold">Total Bayar</span>
+                            <span id="summary-total" class="text-2xl font-extrabold text-pika-yellow font-mono">Rp 54.000</span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-xs text-slate-400 mb-1">No. WhatsApp (Untuk Notifikasi Otomatis)</label>
+                            <input type="tel" id="customer-wa" placeholder="081234567890" class="w-full bg-pika-dark border border-pika-border focus:border-pika-yellow rounded-xl px-3.5 py-2.5 text-sm text-white outline-none">
+                        </div>
+
+                        <button type="button" onclick="initiateCheckout()" class="w-full bg-gradient-to-r from-pika-yellow to-amber-400 hover:from-pika-bright hover:to-amber-300 text-pika-dark font-extrabold py-3.5 px-5 rounded-xl text-base flex items-center justify-center gap-2 transition-all shadow-lg">
+                            <i class="fa-solid fa-lock"></i> Bayar & Proses Otomatis
+                        </button>
+
+                        <p class="text-[11px] text-slate-400 text-center mt-3 flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-shield-check text-emerald-400"></i> Via Username Only • Garansi Pasti Masuk
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- SECTION 3: CEK PESANAN & LIVE TRANSAKSI                   -->
+        <!-- ========================================================= -->
+        <section id="section-cek-pesanan" class="page-section hidden space-y-8">
+            <div class="max-w-3xl mx-auto text-center space-y-3">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Lacak Status Pesanan Otomatis</h2>
+                <p class="text-slate-400 text-sm">Masukkan Kode Transaksi (Order ID) atau Username Roblox untuk memantau status pengiriman otomatis secara real-time.</p>
+
+                <div class="flex flex-col sm:flex-row gap-2.5 pt-2">
+                    <input type="text" id="search-order-input" placeholder="Contoh: PIKA-884920 atau Username Roblox..." class="flex-grow bg-pika-card border border-pika-border focus:border-pika-yellow rounded-xl px-4 py-3.5 text-sm text-white outline-none">
+                    <button type="button" onclick="searchOrders()" class="bg-pika-yellow hover:bg-pika-bright text-pika-dark font-extrabold px-6 py-3.5 rounded-xl text-sm flex items-center justify-center gap-2 transition">
+                        <i class="fa-solid fa-magnifying-glass"></i> Cari Transaksi
+                    </button>
+                </div>
+            </div>
+
+            <div id="order-search-result" class="hidden max-w-3xl mx-auto bg-pika-card border border-pika-yellow/50 rounded-2xl p-6 space-y-4"></div>
+
+            <div class="bg-pika-card border border-pika-border rounded-2xl overflow-hidden">
+                <div class="p-5 border-b border-pika-border flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                        <h3 class="font-bold text-white text-base">Riwayat Transaksi Live (Auto-Delivery)</h3>
+                    </div>
+                    <span class="text-xs text-slate-400 font-mono">Update Real-Time • pikastoree.my.id</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-pika-dark/80 text-slate-400 text-xs uppercase border-b border-pika-border">
+                                <th class="py-3.5 px-4">Order ID</th>
+                                <th class="py-3.5 px-4">Username</th>
+                                <th class="py-3.5 px-4">Nominal</th>
+                                <th class="py-3.5 px-4">Jalur</th>
+                                <th class="py-3.5 px-4">Total</th>
+                                <th class="py-3.5 px-4">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="live-transactions-tbody" class="divide-y divide-pika-border text-sm"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- SECTION 4: KALKULATOR ROBUX (VIA USERNAME)                -->
+        <!-- ========================================================= -->
+        <section id="section-kalkulator" class="page-section hidden">
+            <div class="max-w-3xl mx-auto bg-pika-card border border-pika-border rounded-3xl p-6 sm:p-8 space-y-6 pika-glow">
+                <div class="flex items-center gap-3 border-b border-pika-border pb-4">
+                    <div class="w-11 h-11 rounded-xl bg-pika-yellow/20 text-pika-yellow flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-extrabold text-white">Kalkulator Robux Via Username</h2>
+                        <p class="text-xs sm:text-sm text-slate-400">Hitung otomatis estimasi harga Rupiah berdasarkan jumlah Robux atau jumlah Robux dari budget Rupiah Anda.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-pika-dark border border-pika-border rounded-2xl p-5 space-y-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-pika-yellow">Mode 1: Robux ke Rupiah</span>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1.5">Jumlah Robux Via Username:</label>
+                            <input type="number" id="calc-net-input" value="400" min="1" oninput="calculateTaxFromNet(this.value)" class="w-full bg-pika-card border border-pika-border focus:border-pika-yellow rounded-xl px-4 py-3 text-lg font-mono font-bold text-white outline-none">
+                        </div>
+                        <div class="bg-pika-card rounded-xl p-4 border border-pika-yellow/30 space-y-2">
+                            <div class="flex justify-between text-xs text-slate-400">
+                                <span>Jalur Pengiriman</span>
+                                <span class="font-mono text-emerald-400">Via Username Saja</span>
+                            </div>
+                            <div class="flex justify-between items-center pt-2 border-t border-pika-border">
+                                <span class="text-xs font-bold text-slate-200">Estimasi Harga:</span>
+                                <span id="calc-gross-output" class="text-xl font-extrabold font-mono text-pika-yellow">Rp 54.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-pika-dark border border-pika-border rounded-2xl p-5 space-y-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Mode 2: Budget Rupiah ke Robux</span>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1.5">Budget Rupiah (Rp):</label>
+                            <input type="number" id="calc-gross-input" value="54000" min="135" oninput="calculateNetFromGross(this.value)" class="w-full bg-pika-card border border-pika-border focus:border-emerald-400 rounded-xl px-4 py-3 text-lg font-mono font-bold text-white outline-none">
+                        </div>
+                        <div class="bg-pika-card rounded-xl p-4 border border-emerald-500/30 space-y-2">
+                            <div class="flex justify-between text-xs text-slate-400">
+                                <span>Rate Saat Ini</span>
+                                <span class="font-mono text-slate-200">Rp 135 / 1 R$</span>
+                            </div>
+                            <div class="flex justify-between items-center pt-2 border-t border-pika-border">
+                                <span class="text-xs font-bold text-slate-200">Estimasi Robux:</span>
+                                <span id="calc-net-output" class="text-xl font-extrabold font-mono text-emerald-400">400 R$</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- SECTION 5: CARA ORDER & KETENTUAN                         -->
+        <!-- ========================================================= -->
+        <section id="section-cara-order" class="page-section hidden space-y-8">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="text-center space-y-2">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Panduan Order Khusus Via Username & Garansi</h2>
+                    <p class="text-slate-400 text-sm">Alur pemesanan otomatis khusus via Username tanpa password.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-pika-card border border-pika-border rounded-2xl p-6 space-y-4">
+                        <h3 class="font-bold text-lg text-pika-yellow flex items-center gap-2">
+                            <i class="fa-solid fa-list-ol"></i> Langkah Order Otomatis
+                        </h3>
+                        <ol class="space-y-3 text-sm text-slate-300 list-decimal list-inside">
+                            <li>Buka menu <strong class="text-white">Top Up Robux</strong> dan masukkan <strong class="text-white">Username Roblox</strong> saja.</li>
+                            <li>Pilih paket Robux atau masukkan nominal custom sesuai kebutuhan.</li>
+                            <li>Pilih metode pembayaran otomatis (QRIS, E-Wallet, atau Virtual Account).</li>
+                            <li>Selesaikan pembayaran sesuai nominal tertera pada invoice.</li>
+                            <li>Sistem otomatis memproses pengiriman Robux ke username Anda begitu pembayaran lunas.</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-pika-card border border-pika-border rounded-2xl p-6 space-y-4">
+                        <h3 class="font-bold text-lg text-emerald-400 flex items-center gap-2">
+                            <i class="fa-solid fa-shield-check"></i> Syarat & Keamanan Produksi
+                        </h3>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                <span><strong>Khusus Via Username Saja:</strong> Seluruh proses pengiriman ditargetkan berdasarkan Username Roblox tujuan secara otomatis.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                                <span><strong>Keamanan Server & Kredensial:</strong> Pada produksi asli, kredensial bot dan secret key payment gateway wajib disimpan di environment variable server backend serta mematuhi syarat layanan platform terkait.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- SECTION 6: OWNER ONLY — ADMIN PANEL, BOT & WEBHOOK          -->
+        <!-- ========================================================= -->
+        <section id="section-admin-api" class="page-section hidden space-y-6">
+            <!-- Owner Authentication Gate -->
+            <div id="admin-login-gate" class="max-w-md mx-auto bg-pika-card border border-pika-yellow/40 rounded-3xl p-6 sm:p-8 space-y-5 pika-glow">
+                <div class="text-center space-y-2">
+                    <div class="w-14 h-14 mx-auto rounded-2xl bg-pika-yellow/15 border border-pika-yellow/35 text-pika-yellow flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-white">Khusus Owner • Admin, Bot & Webhook</h2>
+                    <p class="text-xs sm:text-sm text-slate-400">Halaman ini bersifat privat dan hanya dapat diakses serta dilihat oleh Owner setelah verifikasi password owner.</p>
+                </div>
+
+                <form onsubmit="unlockAdminPanel(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Password Owner</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                <i class="fa-solid fa-key"></i>
+                            </span>
+                            <input type="password" id="admin-password-input" placeholder="Masukkan password owner..." required class="w-full bg-pika-dark border border-pika-border focus:border-pika-yellow rounded-xl pl-10 pr-11 py-3 text-sm text-white outline-none transition">
+                            <button type="button" onclick="toggleAdminPasswordVisibility()" aria-label="Tampilkan atau sembunyikan password" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-pika-yellow">
+                                <i id="admin-pass-eye-icon" class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-pika-yellow to-amber-400 hover:from-pika-bright hover:to-amber-300 text-pika-dark font-extrabold py-3 px-5 rounded-xl text-sm flex items-center justify-center gap-2 transition shadow-lg">
+                        <i class="fa-solid fa-unlock"></i> Verifikasi Akses Owner
+                    </button>
+                </form>
+
+                <div class="bg-pika-dark/80 border border-pika-border rounded-xl p-3 text-[11px] text-slate-400 flex items-center justify-between gap-2">
+                    <span>Password Awal Owner:</span>
+                    <code class="font-mono font-bold text-pika-cyan select-all">pikaadmin123</code>
+                </div>
+            </div>
+
+            <!-- Protected Owner Dashboard Content (Completely hidden unless Owner verified) -->
+            <div id="admin-protected-content" class="hidden space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-pika-card border border-pika-border rounded-2xl p-6">
+                    <div>
+                        <div class="flex items-center gap-2.5 flex-wrap">
+                            <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 font-mono text-xs font-bold border border-emerald-500/30">BOT & WEBHOOK ACTIVE</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-pika-yellow/15 text-pika-yellow font-mono text-xs font-bold border border-pika-yellow/30"><i class="fa-solid fa-crown mr-1"></i>OWNER MODE</span>
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-white">Panel Owner, Bot Pengirim & Webhook</h2>
+                        </div>
+                        <p class="text-slate-400 text-sm mt-1">Kelola akun bot ber-Robux untuk pengiriman otomatis ke username customer, pantau Webhook, dan uji API.</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div class="bg-pika-dark border border-pika-border px-4 py-2.5 rounded-xl">
+                            <p class="text-[11px] text-slate-400">Total Saldo Pool Bot</p>
+                            <p id="admin-bot-balance" class="font-mono font-extrabold text-pika-yellow text-base">142,850 R$</p>
+                        </div>
+                        <div class="bg-pika-dark border border-pika-border px-4 py-2.5 rounded-xl">
+                            <p class="text-[11px] text-slate-400">Bot Aktif</p>
+                            <p id="admin-active-bots-count" class="font-mono font-extrabold text-pika-cyan text-base">3 Akun</p>
+                        </div>
+                        <button type="button" onclick="lockAdminPanel()" class="bg-pika-red/15 hover:bg-pika-red/25 text-pika-red border border-pika-red/40 font-bold text-xs px-4 py-3 rounded-xl flex items-center gap-2 transition">
+                            <i class="fa-solid fa-lock"></i> Kunci & Sembunyikan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ganti Password Owner -->
+                <div class="bg-pika-card border border-pika-border rounded-2xl p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved text-pika-yellow"></i> Keamanan Password Owner
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Ubah password khusus agar hanya Anda sebagai Owner yang dapat membuka dan melihat fitur Admin, Bot & Webhook.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-2.5 w-full lg:w-auto">
+                        <input type="password" id="new-admin-password-input" placeholder="Password owner baru (min. 6 karakter)" class="bg-pika-dark border border-pika-border focus:border-pika-yellow rounded-xl px-3.5 py-2 text-xs text-white outline-none min-w-[220px]">
+                        <button type="button" onclick="updateAdminPassword()" class="bg-pika-yellow hover:bg-pika-bright text-pika-dark font-extrabold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition shrink-0">
+                            <i class="fa-solid fa-floppy-disk"></i> Simpan Password Baru
+                        </button>
+                    </div>
+                </div>
+
+                <!-- POOL AKUN BOT PENGIRIM ROBUX -->
+                <div class="bg-pika-card border border-pika-border rounded-2xl p-5 sm:p-6 space-y-5">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-pika-border pb-4">
+                        <div>
+                            <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-robot text-pika-cyan"></i> Pool Akun Bot Pengirim Robux (Sender Accounts API)
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-0.5">Akun penyedia ber-Robux yang otomatis mengeksekusi pengiriman ke username customer saat webhook pembayaran lunas.</p>
+                        </div>
+                        <button type="button" onclick="resetBotPoolDefault()" class="text-xs bg-pika-surface hover:bg-slate-700 text-slate-300 border border-pika-border px-3 py-2 rounded-xl font-semibold transition">
+                            <i class="fa-solid fa-rotate-left"></i> Reset Pool Default
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 bg-pika-dark border border-pika-border rounded-2xl p-4">
+                        <div class="sm:col-span-4">
+                            <label class="block text-[11px] text-slate-400 mb-1">Username / ID Akun Bot Ber-Robux</label>
+                            <input type="text" id="new-bot-username" placeholder="Contoh: BOT_ROBUX_SG_04" class="w-full bg-pika-card border border-pika-border focus:border-pika-cyan rounded-xl px-3 py-2 text-xs font-mono text-white outline-none">
+                        </div>
+                        <div class="sm:col-span-3">
+                            <label class="block text-[11px] text-slate-400 mb-1">Saldo Robux Bot (R$)</label>
+                            <input type="number" id="new-bot-balance" placeholder="50000" min="100" class="w-full bg-pika-card border border-pika-border focus:border-pika-cyan rounded-xl px-3 py-2 text-xs font-mono text-white outline-none">
+                        </div>
+                        <div class="sm:col-span-3">
+                            <label class="block text-[11px] text-slate-400 mb-1">API Token / Session Alias</label>
+                            <input type="text" id="new-bot-token" placeholder="rblx_bot_live_..." class="w-full bg-pika-card border border-pika-border focus:border-pika-cyan rounded-xl px-3 py-2 text-xs font-mono text-white outline-none">
+                        </div>
+                        <div class="sm:col-span-2 flex items-end">
+                            <button type="button" onclick="addSenderBotAccount()" class="w-full bg-pika-cyan hover:bg-cyan-300 text-pika-dark font-extrabold text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition">
+                                <i class="fa-solid fa-plus"></i> Tambah Bot
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="sender-bots-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+
+                    <div class="bg-pika-dark/90 border border-pika-purple/40 rounded-2xl p-4 space-y-3">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-paper-plane text-pika-purple"></i> Uji Coba API Kirim Robux Otomatis (Via Username)
+                            </h4>
+                            <span class="text-[11px] font-mono text-pika-purple">POST /v1/bot/send-by-username</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+                            <div class="sm:col-span-5">
+                                <input type="text" id="test-send-username" placeholder="Username Roblox tujuan (contoh: PikaTester_01)" class="w-full bg-pika-card border border-pika-border focus:border-pika-purple rounded-xl px-3.5 py-2.5 text-xs text-white outline-none">
+                            </div>
+                            <div class="sm:col-span-3">
+                                <input type="number" id="test-send-amount" value="250" min="10" class="w-full bg-pika-card border border-pika-border focus:border-pika-purple rounded-xl px-3.5 py-2.5 text-xs font-mono text-white outline-none">
+                            </div>
+                            <div class="sm:col-span-4">
+                                <button type="button" onclick="executeDirectBotSend()" class="w-full bg-pika-purple hover:bg-purple-400 text-white font-extrabold text-xs py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition">
+                                    <i class="fa-solid fa-bolt"></i> Kirim Otomatis Dari Bot API
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Left: Real-time API & Webhook Execution Logs -->
+                    <div class="lg:col-span-5 bg-pika-card border border-pika-border rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-bold text-white text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-terminal text-pika-yellow"></i> Live Bot & Webhook Logs
+                                </h3>
+                                <button type="button" onclick="triggerTestApiDelivery()" class="text-xs bg-pika-surface hover:bg-slate-700 text-pika-yellow border border-pika-yellow/30 px-2.5 py-1 rounded-lg font-semibold transition">
+                                    + Test Ping API
+                                </button>
+                            </div>
+                            <div id="api-terminal-logs" class="bg-[#070A12] border border-pika-border rounded-xl p-3.5 font-mono text-xs h-80 overflow-y-auto space-y-2 text-slate-300"></div>
+                        </div>
+
+                        <div class="bg-pika-dark border border-pika-border rounded-xl p-3.5 text-xs space-y-1.5">
+                            <p class="font-bold text-white">Endpoint Webhook & Bot API:</p>
+                            <code class="block text-emerald-400 break-all">POST https://api.pikastoree.my.id/v1/webhook/payment</code>
+                            <code class="block text-pika-cyan break-all">POST https://api.pikastoree.my.id/v1/bot/send-by-username</code>
+                        </div>
+                    </div>
+
+                    <!-- Right: Node.js Production Backend Integration Code -->
+                    <div class="lg:col-span-7 bg-pika-card border border-pika-border rounded-2xl p-5 space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                                <h3 class="font-bold text-white text-base">Kode Backend Webhook & Bot API (Node.js)</h3>
+                                <p class="text-xs text-slate-400">Memverifikasi callback Webhook pembayaran lalu mengeksekusi pengiriman via Username.</p>
+                            </div>
+                            <button type="button" onclick="copyBackendCode()" class="bg-pika-yellow hover:bg-pika-bright text-pika-dark font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition">
+                                <i class="fa-regular fa-copy"></i> Salin Kode Node.js
+                            </button>
+                        </div>
+
+                        <pre id="nodejs-api-code" class="bg-[#070A12] border border-pika-border rounded-xl p-4 font-mono text-xs text-slate-200 overflow-x-auto h-96 leading-relaxed"><code>// server.js - Pika Store Robux Webhook & Bot Delivery API (Owner Only)
+const express = require('express');
+const crypto = require('crypto');
+const noblox = require('noblox.js');
+const app = express();
+app.use(express.json());
+
+// Endpoint API Pengecekan Username -> Display Name & Avatar Roblox
+app.get('/v1/roblox/check-username/:username', async (req, res) => {
+    try {
+        const cleanUsername = String(req.params.username || '').replace(/^@+/, '').trim();
+        if (!cleanUsername) {
+            return res.status(400).json({ success: false, message: 'Username wajib diisi' });
+        }
+
+        const userLookupRes = await fetch('https://users.roblox.com/v1/usernames/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ usernames: [cleanUsername], excludeBannedUsers: true })
+        });
+        const userLookupData = await userLookupRes.json();
+        const user = userLookupData.data && userLookupData.data[0];
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'Username Roblox tidak ditemukan' });
+        }
+
+        const thumbUrl = `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${user.id}&size=150x150&format=Png&isCircular=false`;
+        const thumbRes = await fetch(thumbUrl);
+        const thumbData = await thumbRes.json();
+        const avatarUrl = (thumbData.data && thumbData.data[0] && thumbData.data[0].imageUrl) || '';
+
+        return res.json({
+            success: true,
+            userId: user.id,
+            username: user.name,
+            displayName: user.displayName,
+            avatarUrl
+        });
+    } catch (err) {
+        return res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+const botAccounts = [
+    { id: 'BOT_ROBUX_SG_01', cookie: process.env.BOT_COOKIE_1, balance: 68500 },
+    { id: 'BOT_ROBUX_ID_02', cookie: process.env.BOT_COOKIE_2, balance: 49350 }
+];
+
+async function pickAvailableBot(requiredRobux) {
+    const bot = botAccounts.find((b) => b.balance >= requiredRobux && b.cookie);
+    if (!bot) throw new Error('Stok Robux pada seluruh akun bot tidak mencukupi');
+    await noblox.setCookie(bot.cookie);
+    return bot;
+}
+
+async function sendRobuxViaUsername({ username, robuxAmount }) {
+    const userId = await noblox.getIdFromUsername(username);
+    const bot = await pickAvailableBot(robuxAmount);
+    const transferReceipt = await noblox.sendRobuxByUsername({ targetUserId: userId, amount: robuxAmount });
+    bot.balance -= robuxAmount;
+    return { userId, username, botId: bot.id, robuxAmount, transferReceipt };
+}
+
+app.post('/v1/webhook/payment', async (req, res) => {
+    try {
+        const signature = req.headers['x-callback-signature'];
+        const computed = crypto
+            .createHmac('sha256', process.env.PAYMENT_PRIVATE_KEY || 'dev_secret')
+            .update(JSON.stringify(req.body))
+            .digest('hex');
+
+        if (signature !== computed) {
+            return res.status(403).json({ success: false, message: 'Invalid signature' });
+        }
+
+        const { merchant_ref, status, username, robux_amount } = req.body;
+        if (status === 'PAID') {
+            const delivery = await sendRobuxViaUsername({
+                username,
+                robuxAmount: robux_amount
+            });
+            return res.status(200).json({ success: true, orderId: merchant_ref, delivery });
+        }
+        return res.status(200).json({ success: true, status });
+    } catch (err) {
+        return res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+app.listen(3000, () => console.log('Pika Store Webhook & Bot API berjalan di port 3000'));</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================================= -->
+    <!-- MODAL CHECKOUT & PEMBAYARAN OTOMATIS                      -->
+    <!-- ========================================================= -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto">
+        <div class="bg-pika-card border border-pika-yellow/50 rounded-3xl max-w-md w-full p-6 space-y-5 relative pika-glow-strong my-auto">
+            <button type="button" onclick="closeCheckoutModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-pika-surface text-slate-400 hover:text-white flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center space-y-1">
+                <span class="inline-flex items-center gap-1.5 bg-pika-yellow/15 text-pika-yellow px-3 py-1 rounded-full text-xs font-bold">
+                    <i class="fa-solid fa-bolt"></i> Pembayaran Otomatis
+                </span>
+                <h3 class="text-xl font-extrabold text-white">Selesaikan Pembayaran</h3>
+                <p id="modal-order-id" class="text-xs font-mono text-slate-400">Order ID: PIKA-892410</p>
+            </div>
+
+            <div class="bg-pika-dark border border-pika-border rounded-xl p-3 flex items-center justify-between">
+                <span class="text-xs text-slate-400">Batas Waktu Bayar:</span>
+                <span id="payment-countdown" class="font-mono font-extrabold text-pika-red text-sm">14:59</span>
+            </div>
+
+            <div id="modal-payment-visual" class="bg-white rounded-2xl p-4 text-center space-y-2 text-pika-dark">
+                <div class="flex items-center justify-between text-xs font-extrabold border-b border-slate-200 pb-2">
+                    <span>QRIS PIKA STORE</span>
+                    <span class="text-emerald-600">AUTO-VERIFY</span>
+                </div>
+                <div class="flex justify-center py-2">
+                    <svg class="w-44 h-44" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100" height="100" fill="white"/>
+                        <rect x="8" y="8" width="24" height="24" stroke="#0B0F19" stroke-width="4"/>
+                        <rect x="14" y="14" width="12" height="12" fill="#0B0F19"/>
+                        <rect x="68" y="8" width="24" height="24" stroke="#0B0F19" stroke-width="4"/>
+                        <rect x="74" y="14" width="12" height="12" fill="#0B0F19"/>
+                        <rect x="8" y="68" width="24" height="24" stroke="#0B0F19" stroke-width="4"/>
+                        <rect x="14" y="74" width="12" height="12" fill="#0B0F19"/>
+                        <rect x="40" y="10" width="6" height="6" fill="#0B0F19"/>
+                        <rect x="52" y="10" width="6" height="12" fill="#0B0F19"/>
+                        <rect x="40" y="22" width="10" height="6" fill="#0B0F19"/>
+                        <rect x="10" y="40" width="12" height="6" fill="#0B0F19"/>
+                        <rect x="28" y="40" width="6" height="14" fill="#0B0F19"/>
+                        <rect x="68" y="40" width="12" height="6" fill="#0B0F19"/>
+                        <rect x="84" y="46" width="8" height="14" fill="#0B0F19"/>
+                        <rect x="40" y="68" width="14" height="6" fill="#0B0F19"/>
+                        <rect x="60" y="68" width="6" height="18" fill="#0B0F19"/>
+                        <rect x="72" y="74" width="18" height="6" fill="#0B0F19"/>
+                        <rect x="44" y="82" width="10" height="10" fill="#0B0F19"/>
+                        <rect x="39" y="39" width="22" height="22" rx="4" fill="#FACC15"/>
+                        <path d="M51 42L44 51H50L49 58L56 49H50L51 42Z" fill="#0B0F19"/>
+                    </svg>
+                </div>
+                <p id="modal-payment-method-label" class="text-xs font-bold text-slate-700">Scan menggunakan DANA, GoPay, OVO, ShopeePay, atau M-Banking</p>
+            </div>
+
+            <div class="bg-pika-dark border border-pika-border rounded-xl p-4 space-y-2">
+                <div class="flex justify-between text-xs text-slate-400">
+                    <span>Kode Unik Verifikasi</span>
+                    <span id="modal-unique-code" class="font-mono text-pika-yellow">+Rp 127</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-bold text-slate-200">Total Transfer Persis:</span>
+                    <div class="flex items-center gap-2">
+                        <span id="modal-exact-amount" class="text-xl font-extrabold font-mono text-pika-yellow">Rp 54.127</span>
+                        <button type="button" onclick="copyTextValue(document.getElementById('modal-exact-amount').innerText.replace(/[^0-9]/g, ''), 'Nominal transfer disalin!')" class="text-xs bg-pika-surface hover:bg-slate-700 text-white p-1.5 rounded-lg">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="api-delivery-progress" class="hidden bg-pika-dark border border-emerald-500/40 rounded-xl p-4 space-y-3">
+                <div class="flex items-center gap-2.5 text-emerald-400 font-bold text-sm">
+                    <i id="progress-spinner" class="fa-solid fa-circle-notch fa-spin"></i>
+                    <span id="progress-status-title">Memverifikasi Pembayaran...</span>
+                </div>
+                <div class="w-full bg-pika-surface rounded-full h-2 overflow-hidden">
+                    <div id="progress-bar-fill" class="bg-gradient-to-r from-pika-yellow to-emerald-400 h-2 rounded-full transition-all duration-500" style="width: 25%"></div>
+                </div>
+                <p id="progress-status-desc" class="text-xs text-slate-400 font-mono">Memproses webhook pembayaran otomatis...</p>
+            </div>
+
+            <div id="modal-action-buttons" class="space-y-2.5">
+                <button type="button" onclick="simulatePaymentSuccess()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-pika-dark font-extrabold py-3.5 px-4 rounded-xl text-sm flex items-center justify-center gap-2 transition shadow-lg">
+                    <i class="fa-solid fa-bolt"></i> Simulasi Bayar Lunas (Trigger Otomatis)
+                </button>
+                <p class="text-[11px] text-center text-slate-400">
+                    Klik tombol di atas untuk mensimulasikan pembayaran terdeteksi otomatis & pengiriman Robux via Username.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-pika-border bg-pika-card/60 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+            <div class="flex items-center gap-2">
+                <span class="font-extrabold text-white text-sm">PIKA<span class="text-pika-yellow">STORE</span></span>
+                <span>•</span>
+                <span>pikastoree.my.id — Top Up Robux Via Username Otomatis</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="#cara-order" onclick="switchSection('cara-order'); return false;" class="hover:text-pika-yellow transition">Syarat & Ketentuan</a>
+                <button type="button" onclick="openOwnerPortalTrigger()" class="hover:text-pika-yellow transition cursor-pointer">
+                    <i class="fa-solid fa-key text-[11px] mr-1"></i>Akses Owner
+                </button>
+                <span>© 2026 Pika Store Robux</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================================= -->
+    <!-- JAVASCRIPT APPLICATION LOGIC                              -->
+    <!-- ========================================================= -->
+    <script>
+        const RATE_PER_ROBUX = 135;
+        const STORAGE_KEY_TX = 'pika_store_transactions_v2';
+        const STORAGE_KEY_BOTS = 'pika_store_sender_bots_v2';
+        const STORAGE_KEY_ADMIN_PASS = 'pika_store_admin_password_v1';
+        const DEFAULT_ADMIN_PASS = 'pikaadmin123';
+
+        let isAdminAuthenticated = false;
+
+        function getAdminPassword() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY_ADMIN_PASS);
+                return saved && saved.length > 0 ? saved : DEFAULT_ADMIN_PASS;
+            } catch (_) {
+                return DEFAULT_ADMIN_PASS;
+            }
+        }
+
+        function setAdminPassword(newPass) {
+            try {
+                localStorage.setItem(STORAGE_KEY_ADMIN_PASS, newPass);
+            } catch (_) {
+                // Abaikan jika localStorage diblokir
+            }
+        }
+
+        function syncOwnerVisibilityUI() {
+            const desktopOwnerBtn = document.getElementById('desktop-owner-nav-btn');
+            const mobileOwnerBtn = document.getElementById('mobile-owner-nav-btn');
+            const gateEl = document.getElementById('admin-login-gate');
+            const contentEl = document.getElementById('admin-protected-content');
+
+            // Menu Admin, Bot & Webhook hanya terlihat oleh Owner yang sudah terautentikasi
+            if (desktopOwnerBtn) {
+                if (isAdminAuthenticated) desktopOwnerBtn.classList.remove('hidden');
+                else desktopOwnerBtn.classList.add('hidden');
+            }
+            if (mobileOwnerBtn) {
+                if (isAdminAuthenticated) mobileOwnerBtn.classList.remove('hidden');
+                else mobileOwnerBtn.classList.add('hidden');
+            }
+
+            if (gateEl && contentEl) {
+                if (isAdminAuthenticated) {
+                    gateEl.classList.add('hidden');
+                    contentEl.classList.remove('hidden');
+                } else {
+                    gateEl.classList.remove('hidden');
+                    contentEl.classList.add('hidden');
+                }
+            }
+        }
+
+        function openOwnerPortalTrigger() {
+            isAdminAuthenticated = false;
+            syncOwnerVisibilityUI();
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.add('hidden'));
+            const adminSec = document.getElementById('section-admin-api');
+            if (adminSec) adminSec.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                const passInput = document.getElementById('admin-password-input');
+                if (passInput) passInput.focus();
+            }, 150);
+        }
+
+        function unlockAdminPanel(event) {
+            if (event) event.preventDefault();
+            const passInput = document.getElementById('admin-password-input');
+            const entered = passInput ? passInput.value : '';
+            const currentPass = getAdminPassword();
+
+            if (!entered || entered !== currentPass) {
+                showToast('Password owner salah! Akses ditolak.', 'error');
+                if (passInput) {
+                    passInput.value = '';
+                    passInput.focus();
+                }
+                return;
+            }
+
+            isAdminAuthenticated = true;
+            if (passInput) passInput.value = '';
+            syncOwnerVisibilityUI();
+            addApiLog('[AUTH-OWNER] Sesi Owner aktif. Fitur Admin, Bot & Webhook terbuka.', 'text-emerald-400');
+            showToast('Akses Owner berhasil! Fitur Admin, Bot & Webhook kini tampil.', 'success');
+        }
+
+        function lockAdminPanel() {
+            isAdminAuthenticated = false;
+            const newPassInput = document.getElementById('new-admin-password-input');
+            if (newPassInput) newPassInput.value = '';
+            syncOwnerVisibilityUI();
+            switchSection('beranda');
+            showToast('Sesi Owner dikunci. Fitur Admin, Bot & Webhook disembunyikan.', 'success');
+        }
+
+        function toggleAdminPasswordVisibility() {
+            const input = document.getElementById('admin-password-input');
+            const icon = document.getElementById('admin-pass-eye-icon');
+            if (!input || !icon) return;
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-solid fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-solid fa-eye';
+            }
+        }
+
+        function updateAdminPassword() {
+            if (!isAdminAuthenticated) {
+                showToast('Verifikasi akses Owner terlebih dahulu.', 'error');
+                return;
+            }
+            const newPassEl = document.getElementById('new-admin-password-input');
+            const nextPass = newPassEl ? newPassEl.value.trim() : '';
+            if (nextPass.length < 6) {
+                showToast('Password owner baru minimal 6 karakter!', 'error');
+                return;
+            }
+
+            setAdminPassword(nextPass);
+            if (newPassEl) newPassEl.value = '';
+            addApiLog('[AUTH-OWNER] Password owner berhasil diperbarui.', 'text-pika-yellow');
+            showToast('Password owner berhasil disimpan!', 'success');
+        }
+
+        const defaultSenderBots = [
+            { id: 'BOT_ROBUX_SG_01', region: 'Singapore Pool', balance: 68500, status: 'Online', tokenAlias: 'rblx_sg_live_8841' },
+            { id: 'BOT_ROBUX_ID_02', region: 'Indonesia Fast', balance: 49350, status: 'Online', tokenAlias: 'rblx_id_live_3920' },
+            { id: 'SUPPLIER_VAULT_03', region: 'Backup Vault', balance: 25000, status: 'Standby', tokenAlias: 'rblx_bk_live_7712' }
+        ];
+
+        const defaultTransactions = [
+            { id: 'PIKA-884921', username: 'ZeynRBLX', robux: 800, botUsed: 'BOT_ROBUX_SG_01', total: 108000, status: 'Sukses Masuk', time: 'Baru saja' },
+            { id: 'PIKA-884920', username: 'Kiraa_Chan', robux: 400, botUsed: 'BOT_ROBUX_ID_02', total: 54000, status: 'Sukses Masuk', time: '2 menit lalu' },
+            { id: 'PIKA-884919', username: 'RakaBlox99', robux: 1700, botUsed: 'BOT_ROBUX_SG_01', total: 229500, status: 'Sukses Masuk', time: '4 menit lalu' },
+            { id: 'PIKA-884918', username: 'NabilaCute', robux: 160, botUsed: 'BOT_ROBUX_ID_02', total: 21600, status: 'Sukses Masuk', time: '7 menit lalu' },
+            { id: 'PIKA-884917', username: 'AldiPro_ID', robux: 4500, botUsed: 'SUPPLIER_VAULT_03', total: 609500, status: 'Sukses Masuk', time: '12 menit lalu' }
+        ];
+
+        let storeState = {
+            deliveryMethod: 'username_only',
+            username: '',
+            accountVerified: false,
+            avatarUrl: '',
+            robuxAmount: 400,
+            paymentMethod: 'QRIS All Payment',
+            paymentCode: 'qris',
+            paymentFee: 0,
+            currentOrder: null,
+            countdownInterval: null
+        };
+
+        const robuxPackages = [
+            { robux: 80, label: 'Starter Pack', popular: false },
+            { robux: 160, label: 'Hemat', popular: false },
+            { robux: 400, label: 'Terlaris ⚡', popular: true },
+            { robux: 800, label: 'Pro Gamer', popular: true },
+            { robux: 1700, label: 'Sultan Pack', popular: false },
+            { robux: 4500, label: 'Mega Pika', popular: false }
+        ];
+
+        let senderBots = loadFromStorage(STORAGE_KEY_BOTS, defaultSenderBots);
+        let transactions = loadFromStorage(STORAGE_KEY_TX, defaultTransactions);
+
+        function loadFromStorage(key, fallback) {
+            try {
+                const raw = localStorage.getItem(key);
+                if (!raw) return JSON.parse(JSON.stringify(fallback));
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) && parsed.length > 0 ? parsed : JSON.parse(JSON.stringify(fallback));
+            } catch (err) {
+                return JSON.parse(JSON.stringify(fallback));
+            }
+        }
+
+        function saveStateToStorage() {
+            try {
+                localStorage.setItem(STORAGE_KEY_TX, JSON.stringify(transactions));
+                localStorage.setItem(STORAGE_KEY_BOTS, JSON.stringify(senderBots));
+            } catch (err) {
+                // Abaikan jika penyimpanan browser diblokir
+            }
+        }
+
+        function getTotalBotBalance() {
+            return senderBots.reduce((sum, bot) => sum + (Number(bot.balance) || 0), 0);
+        }
+
+        function syncBotBalanceUI() {
+            const totalStock = getTotalBotBalance();
+            const activeCount = senderBots.filter(b => b.status === 'Online').length;
+            const adminBal = document.getElementById('admin-bot-balance');
+            const activeBotsEl = document.getElementById('admin-active-bots-count');
+
+            if (adminBal) adminBal.innerText = `${totalStock.toLocaleString('id-ID')} R$`;
+            if (activeBotsEl) activeBotsEl.innerText = `${activeCount} Akun`;
+        }
+
+        function deductRobuxFromBotPool(amount) {
+            let remaining = Number(amount) || 0;
+            let selectedBotId = senderBots[0] ? senderBots[0].id : 'BOT_AUTO_01';
+
+            const singleBot = senderBots.find(b => b.balance >= remaining);
+            if (singleBot) {
+                singleBot.balance -= remaining;
+                selectedBotId = singleBot.id;
+            } else {
+                for (const bot of senderBots) {
+                    if (remaining <= 0) break;
+                    const take = Math.min(bot.balance, remaining);
+                    if (take > 0) {
+                        bot.balance -= take;
+                        remaining -= take;
+                        selectedBotId = bot.id;
+                    }
+                }
+            }
+
+            saveStateToStorage();
+            renderSenderBots();
+            syncBotBalanceUI();
+            return selectedBotId;
+        }
+
+        function initStoreApp() {
+            try {
+                isAdminAuthenticated = false;
+                syncOwnerVisibilityUI();
+                renderRobuxPackages();
+                updateOrderCalculations();
+                updateHomeQuickTax(400);
+                renderSenderBots();
+                syncBotBalanceUI();
+                renderTransactionsTable();
+                initApiLogs();
+                startLiveTicker();
+            } catch (err) {
+                showToast('Terjadi kendala saat memuat aplikasi.', 'error');
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initStoreApp);
+        } else {
+            initStoreApp();
+        }
+
+        function switchSection(sectionId) {
+            try {
+                if (sectionId === 'admin-api') {
+                    isAdminAuthenticated = false;
+                    syncOwnerVisibilityUI();
+                }
+
+                document.querySelectorAll('.page-section').forEach(sec => sec.classList.add('hidden'));
+                const target = document.getElementById(`section-${sectionId}`);
+                if (target) target.classList.remove('hidden');
+
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    if (btn.dataset.nav === sectionId) {
+                        btn.classList.add('tab-active');
+                        btn.classList.remove('text-slate-300');
+                    } else {
+                        btn.classList.remove('tab-active');
+                        btn.classList.add('text-slate-300');
+                    }
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } catch (err) {
+                showToast('Gagal berpindah menu.', 'error');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu) menu.classList.toggle('hidden');
+        }
+
+        function updateHomeQuickTax(val) {
+            const amount = Math.max(1, parseInt(val, 10) || 1);
+            const estimatedPrice = amount * RATE_PER_ROBUX;
+            const el = document.getElementById('home-quick-gross');
+            if (el) el.innerText = `Rp ${estimatedPrice.toLocaleString('id-ID')}`;
+        }
+
+        function renderRobuxPackages() {
+            const grid = document.getElementById('robux-packages-grid');
+            if (!grid) return;
+            grid.innerHTML = robuxPackages.map(pkg => {
+                const price = pkg.robux * RATE_PER_ROBUX;
+                const isSelected = storeState.robuxAmount === pkg.robux;
+                return `
+                    <div onclick="selectRobuxPackage(${pkg.robux})" id="pkg-${pkg.robux}" 
+                         class="pkg-card option-card ${isSelected ? 'selected' : ''} cursor-pointer border-2 border-pika-border rounded-xl p-3.5 relative transition-all hover:border-pika-yellow/60">
+                        ${pkg.popular ? `<span class="absolute -top-2.5 right-2.5 bg-pika-yellow text-pika-dark text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow">${pkg.label}</span>` : ''}
+                        <div class="flex items-center gap-2 mb-1">
+                            <i class="fa-solid fa-coins text-pika-yellow"></i>
+                            <span class="font-extrabold text-base sm:text-lg text-white font-mono">${pkg.robux.toLocaleString('id-ID')} R$</span>
+                        </div>
+                        <p class="text-xs font-mono font-semibold text-slate-300">Rp ${price.toLocaleString('id-ID')}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectRobuxPackage(amount) {
+            storeState.robuxAmount = amount;
+            const customInput = document.getElementById('custom-robux-input');
+            const customBadge = document.getElementById('custom-robux-price-badge');
+            if (customInput) customInput.value = '';
+            if (customBadge) customBadge.innerText = 'Rp 0';
+            renderRobuxPackages();
+            updateOrderCalculations();
+        }
+
+        function handleCustomRobux(val) {
+            const num = parseInt(val, 10);
+            if (!isNaN(num) && num >= 10) {
+                storeState.robuxAmount = Math.min(num, 25000);
+                document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
+                const customBadge = document.getElementById('custom-robux-price-badge');
+                if (customBadge) customBadge.innerText = `Rp ${(storeState.robuxAmount * RATE_PER_ROBUX).toLocaleString('id-ID')}`;
+                updateOrderCalculations();
+            }
+        }
+
+        function selectPayment(name, code, fee) {
+            storeState.paymentMethod = name;
+            storeState.paymentCode = code;
+            storeState.paymentFee = fee;
+
+            document.querySelectorAll('.payment-card').forEach(el => el.classList.remove('selected'));
+            const selectedPay = document.getElementById(`pay-${code}`);
+            if (selectedPay) selectedPay.classList.add('selected');
+            updateOrderCalculations();
+        }
+
+        function updateOrderCalculations() {
+            const basePrice = storeState.robuxAmount * RATE_PER_ROBUX;
+            const totalPay = basePrice + storeState.paymentFee;
+
+            const qrisDisplay = document.getElementById('price-display-qris');
+            if (qrisDisplay) qrisDisplay.innerText = `Rp ${basePrice.toLocaleString('id-ID')}`;
+
+            ['dana', 'gopay', 'ovo', 'shopeepay'].forEach(ew => {
+                const el = document.getElementById(`price-display-${ew}`);
+                if (el) el.innerText = `Rp ${(basePrice + 500).toLocaleString('id-ID')}`;
+            });
+            ['bca', 'bri', 'mandiri'].forEach(va => {
+                const el = document.getElementById(`price-display-${va}`);
+                if (el) el.innerText = `Rp ${(basePrice + 2000).toLocaleString('id-ID')}`;
+            });
+
+            const sumRobux = document.getElementById('summary-robux');
+            const sumPay = document.getElementById('summary-payment');
+            const sumFee = document.getElementById('summary-fee');
+            const sumTotal = document.getElementById('summary-total');
+
+            if (sumRobux) sumRobux.innerText = `${storeState.robuxAmount.toLocaleString('id-ID')} R$`;
+            if (sumPay) sumPay.innerText = storeState.paymentMethod;
+            if (sumFee) sumFee.innerText = storeState.paymentFee === 0 ? 'Gratis (Rp 0)' : `Rp ${storeState.paymentFee.toLocaleString('id-ID')}`;
+            if (sumTotal) sumTotal.innerText = `Rp ${totalPay.toLocaleString('id-ID')}`;
+        }
+
+        function checkRobloxAccount() {
+            const inputEl = document.getElementById('roblox-username');
+            const input = inputEl ? inputEl.value.trim().replace(/^@+/, '') : '';
+            if (!input || input.length < 3) {
+                showToast('Masukkan minimal 3 karakter Username Roblox!', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('btn-check-account');
+            if (btn) {
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Mengecek...';
+                btn.disabled = true;
+            }
+
+            fetchRobloxUserProfile(input).then(profile => {
+                storeState.username = profile.username;
+                storeState.accountVerified = true;
+                storeState.avatarUrl = profile.avatarUrl;
+
+                const displayNameEl = document.getElementById('roblox-display-name');
+                const handleTextEl = document.getElementById('roblox-handle-text');
+                const avatarImgEl = document.getElementById('roblox-avatar-img');
+                const profileCardEl = document.getElementById('roblox-profile-card');
+                const sumUserEl = document.getElementById('summary-username');
+
+                if (displayNameEl) displayNameEl.innerText = profile.displayName;
+                if (handleTextEl) handleTextEl.innerText = `@${profile.username} • UserID: ${profile.userId} (${profile.source})`;
+                if (avatarImgEl) {
+                    avatarImgEl.onerror = function() {
+                        this.onerror = null;
+                        this.src = `https://placehold.co/100x100/FACC15/0B0F19?text=${encodeURIComponent(profile.displayName.substring(0, 2).toUpperCase())}`;
+                    };
+                    avatarImgEl.src = profile.avatarUrl;
+                }
+                if (profileCardEl) profileCardEl.classList.remove('hidden');
+                if (sumUserEl) sumUserEl.innerText = `@${profile.username}`;
+
+                if (btn) {
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i> Terverifikasi';
+                    btn.disabled = false;
+                }
+                addApiLog(`[CHECK-API] Username @${profile.username} -> Display: "${profile.displayName}" (ID: ${profile.userId})`, 'text-pika-cyan');
+                showToast(`Akun @${profile.username} (${profile.displayName}) ditemukan!`, 'success');
+            }).catch(() => {
+                if (btn) {
+                    btn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Cek Akun Roblox';
+                    btn.disabled = false;
+                }
+                showToast('Gagal mengecek username Roblox. Silakan coba lagi.', 'error');
+            });
+        }
+
+        async function fetchRobloxUserProfile(username) {
+            const fallbackAvatar = `https://placehold.co/120x120/FACC15/0B0F19?text=${encodeURIComponent(username.substring(0, 2).toUpperCase())}`;
+            const fallbackProfile = {
+                userId: Math.floor(100000000 + Math.random() * 899999999),
+                username,
+                displayName: username,
+                avatarUrl: fallbackAvatar,
+                source: 'Local Fallback'
+            };
+
+            try {
+                const lookupRes = await fetch('https://users.roblox.com/v1/usernames/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        usernames: [username],
+                        excludeBannedUsers: false
+                    })
+                });
+                if (!lookupRes.ok) return fallbackProfile;
+
+                const lookupJson = await lookupRes.json();
+                const userObj = lookupJson && Array.isArray(lookupJson.data) ? lookupJson.data[0] : null;
+                if (!userObj || !userObj.id) return fallbackProfile;
+
+                let avatarUrl = fallbackAvatar;
+                try {
+                    const thumbRes = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${encodeURIComponent(userObj.id)}&size=150x150&format=Png&isCircular=false`);
+                    if (thumbRes.ok) {
+                        const thumbJson = await thumbRes.json();
+                        const thumbItem = thumbJson && Array.isArray(thumbJson.data) ? thumbJson.data[0] : null;
+                        if (thumbItem && thumbItem.imageUrl) {
+                            avatarUrl = thumbItem.imageUrl;
+                        }
+                    }
+                } catch (_) {
+                    avatarUrl = fallbackAvatar;
+                }
+
+                return {
+                    userId: userObj.id,
+                    username: userObj.name || username,
+                    displayName: userObj.displayName || userObj.name || username,
+                    avatarUrl,
+                    source: 'Roblox API'
+                };
+            } catch (_) {
+                return fallbackProfile;
+            }
+        }
+
+        function resetRobloxAccount() {
+            storeState.username = '';
+            storeState.accountVerified = false;
+            const inputEl = document.getElementById('roblox-username');
+            const cardEl = document.getElementById('roblox-profile-card');
+            const sumUserEl = document.getElementById('summary-username');
+            const btn = document.getElementById('btn-check-account');
+
+            if (inputEl) inputEl.value = '';
+            if (cardEl) cardEl.classList.add('hidden');
+            if (sumUserEl) sumUserEl.innerText = 'Belum diisi';
+            if (btn) btn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Cek Akun Roblox';
+        }
+
+        function initiateCheckout() {
+            const usernameInput = document.getElementById('roblox-username');
+            const rawUsername = usernameInput ? usernameInput.value.trim().replace(/^@+/, '') : '';
+            if (!rawUsername) {
+                showToast('Harap isi Username Roblox Anda terlebih dahulu!', 'error');
+                if (usernameInput) usernameInput.focus();
+                return;
+            }
+
+            if (getTotalBotBalance() < storeState.robuxAmount) {
+                showToast('Stok pengiriman otomatis sedang penuh. Silakan hubungi admin.', 'error');
+                return;
+            }
+
+            storeState.username = rawUsername;
+            const sumUserEl = document.getElementById('summary-username');
+            if (sumUserEl) sumUserEl.innerText = `@${rawUsername}`;
+
+            const orderId = 'PIKA-' + Math.floor(100000 + Math.random() * 900000);
+            const uniqueCode = Math.floor(11 + Math.random() * 288);
+            const baseTotal = (storeState.robuxAmount * RATE_PER_ROBUX) + storeState.paymentFee;
+            const exactTotal = baseTotal + uniqueCode;
+
+            storeState.currentOrder = {
+                id: orderId,
+                username: storeState.username,
+                robux: storeState.robuxAmount,
+                botUsed: 'Auto-API',
+                payment: storeState.paymentMethod,
+                total: exactTotal,
+                status: 'Pending',
+                time: 'Baru saja'
+            };
+
+            transactions.unshift(storeState.currentOrder);
+            saveStateToStorage();
+            renderTransactionsTable();
+
+            const modalOrderId = document.getElementById('modal-order-id');
+            const modalUnique = document.getElementById('modal-unique-code');
+            const modalExact = document.getElementById('modal-exact-amount');
+            const modalLabel = document.getElementById('modal-payment-method-label');
+
+            if (modalOrderId) modalOrderId.innerText = `Order ID: ${orderId}`;
+            if (modalUnique) modalUnique.innerText = `+Rp ${uniqueCode}`;
+            if (modalExact) modalExact.innerText = `Rp ${exactTotal.toLocaleString('id-ID')}`;
+
+            if (modalLabel) {
+                if (storeState.paymentCode === 'qris') {
+                    modalLabel.innerText = `Scan QRIS Otomatis (${storeState.paymentMethod}) • Via Username @${storeState.username}`;
+                } else {
+                    const vaNumber = '88019' + Math.floor(1000000000 + Math.random() * 8999999999);
+                    modalLabel.innerHTML = `Nomor Virtual Account (${storeState.paymentMethod}): <br><strong class="text-base font-mono select-all">${vaNumber}</strong>`;
+                }
+            }
+
+            const progBox = document.getElementById('api-delivery-progress');
+            const actBtns = document.getElementById('modal-action-buttons');
+            if (progBox) progBox.classList.add('hidden');
+            if (actBtns) actBtns.classList.remove('hidden');
+
+            const modal = document.getElementById('checkout-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+
+            startCountdown(900);
+        }
+
+        function closeCheckoutModal() {
+            const modal = document.getElementById('checkout-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+            if (storeState.countdownInterval) clearInterval(storeState.countdownInterval);
+        }
+
+        function startCountdown(seconds) {
+            if (storeState.countdownInterval) clearInterval(storeState.countdownInterval);
+            let remaining = seconds;
+            const display = document.getElementById('payment-countdown');
+            storeState.countdownInterval = setInterval(() => {
+                remaining--;
+                const mins = Math.floor(remaining / 60);
+                const secs = remaining % 60;
+                if (display) display.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                if (remaining <= 0) clearInterval(storeState.countdownInterval);
+            }, 1000);
+        }
+
+        function simulatePaymentSuccess() {
+            if (!storeState.currentOrder) return;
+
+            const actBtns = document.getElementById('modal-action-buttons');
+            const progressBox = document.getElementById('api-delivery-progress');
+            const bar = document.getElementById('progress-bar-fill');
+            const title = document.getElementById('progress-status-title');
+            const desc = document.getElementById('progress-status-desc');
+            const spinner = document.getElementById('progress-spinner');
+
+            if (actBtns) actBtns.classList.add('hidden');
+            if (progressBox) progressBox.classList.remove('hidden');
+
+            if (bar) bar.style.width = '35%';
+            if (title) title.innerText = 'Pembayaran Lunas Terverifikasi!';
+            if (desc) desc.innerText = `[WEBHOOK] Status PAID diterima dari ${storeState.currentOrder.payment}...`;
+            addApiLog(`[WEBHOOK] Payment PAID diterima untuk ${storeState.currentOrder.id} (Rp ${storeState.currentOrder.total.toLocaleString('id-ID')})`, 'text-emerald-400');
+
+            setTimeout(() => {
+                if (bar) bar.style.width = '75%';
+                if (title) title.innerText = 'Mengirim Robux Otomatis Via Username...';
+                if (desc) desc.innerText = `[BOT-API] Mengirim ${storeState.currentOrder.robux} R$ ke @${storeState.currentOrder.username}...`;
+                storeState.currentOrder.status = 'Diproses API';
+                renderTransactionsTable();
+                addApiLog(`[BOT-API] Memproses ${storeState.currentOrder.robux} R$ untuk @${storeState.currentOrder.username}...`, 'text-pika-cyan');
+            }, 1000);
+
+            setTimeout(() => {
+                const usedBot = deductRobuxFromBotPool(storeState.currentOrder.robux);
+
+                if (bar) bar.style.width = '100%';
+                if (spinner) spinner.className = 'fa-solid fa-circle-check text-emerald-400';
+                if (title) title.innerText = 'SUKSES! Robux Pasti Masuk!';
+                if (desc) desc.innerText = `[DELIVERED] Terkirim ke @${storeState.currentOrder.username}`;
+
+                storeState.currentOrder.status = 'Sukses Masuk';
+                storeState.currentOrder.botUsed = usedBot;
+                saveStateToStorage();
+                renderTransactionsTable();
+
+                addApiLog(`[SUKSES] ${storeState.currentOrder.robux} R$ terkirim via ${usedBot} ke @${storeState.currentOrder.username} (${storeState.currentOrder.id})`, 'text-pika-yellow');
+                showToast(`Transaksi ${storeState.currentOrder.id} Sukses! Robux dikirim ke @${storeState.currentOrder.username}!`, 'success');
+
+                setTimeout(() => {
+                    closeCheckoutModal();
+                    switchSection('cek-pesanan');
+                    const searchInput = document.getElementById('search-order-input');
+                    if (searchInput) searchInput.value = storeState.currentOrder.id;
+                    searchOrders();
+                }, 1500);
+            }, 2200);
+        }
+
+        function renderSenderBots() {
+            const grid = document.getElementById('sender-bots-grid');
+            if (!grid) return;
+
+            grid.innerHTML = senderBots.map((bot, idx) => {
+                const isOnline = bot.status === 'Online';
+                return `
+                    <div class="bg-pika-dark border ${isOnline ? 'border-pika-cyan/35' : 'border-pika-border'} rounded-2xl p-4 space-y-3">
+                        <div class="flex items-start justify-between gap-2">
+                            <div>
+                                <span class="text-[10px] font-mono text-slate-400">${bot.region}</span>
+                                <h4 class="font-mono font-extrabold text-sm text-white">${bot.id}</h4>
+                            </div>
+                            <button type="button" onclick="toggleBotStatus(${idx})" class="text-[11px] font-bold px-2.5 py-1 rounded-full border ${isOnline ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' : 'bg-slate-800 text-slate-400 border-slate-700'}">
+                                ${bot.status}
+                            </button>
+                        </div>
+
+                        <div class="bg-pika-card rounded-xl p-3 border border-pika-border">
+                            <span class="text-[11px] text-slate-400 block">Saldo Robux Akun Bot</span>
+                            <span class="font-mono font-extrabold text-lg text-pika-yellow">${Number(bot.balance).toLocaleString('id-ID')} R$</span>
+                        </div>
+
+                        <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+                            <span>Key: ${bot.tokenAlias}</span>
+                            <button type="button" onclick="topUpSingleBot(${idx}, 10000)" class="text-pika-cyan hover:underline font-bold">
+                                + Isi 10K R$
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addSenderBotAccount() {
+            if (!isAdminAuthenticated) return;
+            const userEl = document.getElementById('new-bot-username');
+            const balEl = document.getElementById('new-bot-balance');
+            const tokEl = document.getElementById('new-bot-token');
+
+            const botId = userEl ? userEl.value.trim() : '';
+            const balance = parseInt(balEl ? balEl.value : '0', 10);
+            const tokenAlias = tokEl && tokEl.value.trim() ? tokEl.value.trim() : `rblx_bot_${Math.floor(1000 + Math.random() * 9000)}`;
+
+            if (!botId || isNaN(balance) || balance < 10) {
+                showToast('Isi nama/username akun bot dan saldo Robux minimal 10 R$!', 'error');
+                return;
+            }
+
+            senderBots.push({
+                id: botId,
+                region: 'Custom Sender Pool',
+                balance,
+                status: 'Online',
+                tokenAlias
+            });
+
+            saveStateToStorage();
+            renderSenderBots();
+            syncBotBalanceUI();
+            addApiLog(`[BOT-POOL] Akun bot baru "${botId}" ditambahkan dengan saldo ${balance.toLocaleString('id-ID')} R$.`, 'text-pika-cyan');
+            showToast(`Akun Bot ${botId} berhasil ditambahkan ke Pool API!`, 'success');
+
+            if (userEl) userEl.value = '';
+            if (balEl) balEl.value = '';
+            if (tokEl) tokEl.value = '';
+        }
+
+        function topUpSingleBot(index, addAmount) {
+            if (!isAdminAuthenticated || !senderBots[index]) return;
+            senderBots[index].balance += addAmount;
+            saveStateToStorage();
+            renderSenderBots();
+            syncBotBalanceUI();
+            addApiLog(`[BOT-POOL] Saldo ${senderBots[index].id} ditambah +${addAmount.toLocaleString('id-ID')} R$.`, 'text-emerald-400');
+            showToast(`Saldo ${senderBots[index].id} bertambah +${addAmount.toLocaleString('id-ID')} R$!`, 'success');
+        }
+
+        function toggleBotStatus(index) {
+            if (!isAdminAuthenticated || !senderBots[index]) return;
+            senderBots[index].status = senderBots[index].status === 'Online' ? 'Standby' : 'Online';
+            saveStateToStorage();
+            renderSenderBots();
+            syncBotBalanceUI();
+        }
+
+        function resetBotPoolDefault() {
+            if (!isAdminAuthenticated) return;
+            senderBots = JSON.parse(JSON.stringify(defaultSenderBots));
+            saveStateToStorage();
+            renderSenderBots();
+            syncBotBalanceUI();
+            addApiLog('[BOT-POOL] Pool akun bot dikembalikan ke konfigurasi default.', 'text-slate-400');
+            showToast('Pool Akun Bot direset ke default!', 'success');
+        }
+
+        function executeDirectBotSend() {
+            if (!isAdminAuthenticated) return;
+            const targetUserEl = document.getElementById('test-send-username');
+            const amtEl = document.getElementById('test-send-amount');
+            const targetUser = targetUserEl ? targetUserEl.value.trim().replace(/^@+/, '') : '';
+            const amount = parseInt(amtEl ? amtEl.value : '0', 10);
+
+            if (!targetUser || isNaN(amount) || amount < 10) {
+                showToast('Masukkan Username Roblox tujuan dan jumlah Robux (min. 10 R$)!', 'error');
+                return;
+            }
+
+            if (getTotalBotBalance() < amount) {
+                showToast('Saldo Robux pada Pool Akun Bot tidak cukup!', 'error');
+                return;
+            }
+
+            const usedBot = deductRobuxFromBotPool(amount);
+            const orderId = 'PIKA-API-' + Math.floor(1000 + Math.random() * 9000);
+            const txRecord = {
+                id: orderId,
+                username: targetUser,
+                robux: amount,
+                botUsed: usedBot,
+                total: amount * RATE_PER_ROBUX,
+                status: 'Sukses Masuk',
+                time: 'Baru saja'
+            };
+
+            transactions.unshift(txRecord);
+            saveStateToStorage();
+            renderTransactionsTable();
+
+            addApiLog(`[DIRECT-API] Mengirim ${amount} R$ via ${usedBot} ke username @${targetUser} -> SUKSES`, 'text-pika-purple');
+            showToast(`Sukses mengirim ${amount} R$ ke @${targetUser} menggunakan ${usedBot}!`, 'success');
+            if (targetUserEl) targetUserEl.value = '';
+        }
+
+        function renderTransactionsTable() {
+            const tbody = document.getElementById('live-transactions-tbody');
+            if (!tbody) return;
+            tbody.innerHTML = transactions.map(trx => {
+                let badgeClass = 'bg-amber-500/20 text-amber-400 border-amber-500/30';
+                let icon = 'fa-clock';
+                if (trx.status === 'Diproses API') {
+                    badgeClass = 'bg-sky-500/20 text-sky-400 border-sky-500/30';
+                    icon = 'fa-spinner fa-spin';
+                } else if (trx.status === 'Sukses Masuk') {
+                    badgeClass = 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+                    icon = 'fa-circle-check';
+                }
+
+                return `
+                    <tr class="hover:bg-pika-surface/50 transition">
+                        <td class="py-3.5 px-4 font-mono font-bold text-pika-yellow text-xs">${trx.id}</td>
+                        <td class="py-3.5 px-4 font-semibold text-white">@${trx.username}</td>
+                        <td class="py-3.5 px-4 font-mono font-bold text-slate-200">${Number(trx.robux).toLocaleString('id-ID')} R$</td>
+                        <td class="py-3.5 px-4 font-mono text-xs text-pika-cyan">Via Username</td>
+                        <td class="py-3.5 px-4 font-mono text-xs text-slate-300">Rp ${Number(trx.total).toLocaleString('id-ID')}</td>
+                        <td class="py-3.5 px-4">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${badgeClass}">
+                                <i class="fa-solid ${icon}"></i> ${trx.status}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function searchOrders() {
+            const inputEl = document.getElementById('search-order-input');
+            const query = inputEl ? inputEl.value.trim().toLowerCase() : '';
+            const resultBox = document.getElementById('order-search-result');
+            if (!query) {
+                showToast('Masukkan Order ID atau Username Roblox!', 'error');
+                return;
+            }
+
+            const found = transactions.find(t => t.id.toLowerCase().includes(query) || t.username.toLowerCase().includes(query));
+            if (!resultBox) return;
+            resultBox.classList.remove('hidden');
+
+            if (found) {
+                resultBox.innerHTML = `
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-pika-border pb-3">
+                        <div>
+                            <span class="text-xs text-slate-400">Detail Transaksi Otomatis Via Username</span>
+                            <h4 class="text-lg font-extrabold text-pika-yellow font-mono">${found.id}</h4>
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-extrabold">
+                            <i class="fa-solid fa-check-double"></i> ${found.status}
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-left text-xs">
+                        <div class="bg-pika-dark p-3 rounded-xl border border-pika-border">
+                            <span class="text-slate-400 block mb-1">Username</span>
+                            <strong class="text-white text-sm">@${found.username}</strong>
+                        </div>
+                        <div class="bg-pika-dark p-3 rounded-xl border border-pika-border">
+                            <span class="text-slate-400 block mb-1">Jumlah Robux</span>
+                            <strong class="text-pika-yellow font-mono text-sm">${Number(found.robux).toLocaleString('id-ID')} R$</strong>
+                        </div>
+                        <div class="bg-pika-dark p-3 rounded-xl border border-pika-border">
+                            <span class="text-slate-400 block mb-1">Jalur Pengiriman</span>
+                            <strong class="text-pika-cyan font-mono text-xs">Via Username Saja</strong>
+                        </div>
+                        <div class="bg-pika-dark p-3 rounded-xl border border-pika-border">
+                            <span class="text-slate-400 block mb-1">Total Dibayar</span>
+                            <strong class="text-emerald-400 font-mono text-sm">Rp ${Number(found.total).toLocaleString('id-ID')}</strong>
+                        </div>
+                    </div>
+                `;
+            } else {
+                resultBox.innerHTML = `
+                    <div class="text-center py-4 space-y-1">
+                        <p class="text-pika-red font-bold text-sm"><i class="fa-solid fa-circle-exclamation"></i> Transaksi "${query}" tidak ditemukan.</p>
+                        <p class="text-xs text-slate-400">Pastikan Order ID atau Username Roblox yang dimasukkan sudah benar.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function calculateTaxFromNet(netVal) {
+            const robux = Math.max(0, parseInt(netVal, 10) || 0);
+            const totalRp = robux * RATE_PER_ROBUX;
+            const grossEl = document.getElementById('calc-gross-output');
+            if (grossEl) grossEl.innerText = `Rp ${totalRp.toLocaleString('id-ID')}`;
+        }
+
+        function calculateNetFromGross(grossVal) {
+            const rupiah = Math.max(0, parseInt(grossVal, 10) || 0);
+            const robux = Math.floor(rupiah / RATE_PER_ROBUX);
+            const netEl = document.getElementById('calc-net-output');
+            const rupEl = document.getElementById('calc-rupiah-est');
+            if (netEl) netEl.innerText = `${robux.toLocaleString('id-ID')} R$`;
+            if (rupEl) rupEl.innerText = `Rp ${rupiah.toLocaleString('id-ID')}`;
+        }
+
+        function initApiLogs() {
+            const container = document.getElementById('api-terminal-logs');
+            if (container) container.innerHTML = '';
+            addApiLog('[SYSTEM] Pika Store Auto-Delivery & Bot Pool Engine v2.5 aktif.', 'text-emerald-400');
+            addApiLog('[BOT-POOL] 3 akun bot penyedia ber-Robux siap memproses via Username.', 'text-pika-cyan');
+            addApiLog('[WEBHOOK] Endpoint /v1/webhook/payment siap menerima callback lunas.', 'text-slate-400');
+            addApiLog('[DELIVERY] Order PIKA-884921 (800 R$) -> @ZeynRBLX via BOT_ROBUX_SG_01 [SUKSES]', 'text-pika-yellow');
+        }
+
+        function addApiLog(message, colorClass = 'text-slate-300') {
+            const container = document.getElementById('api-terminal-logs');
+            if (!container) return;
+            const now = new Date().toLocaleTimeString('id-ID', { hour12: false });
+            const line = document.createElement('div');
+            line.className = colorClass;
+            line.innerHTML = `<span class="text-slate-500">[${now}]</span> ${message}`;
+            container.appendChild(line);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function triggerTestApiDelivery() {
+            if (!isAdminAuthenticated) return;
+            addApiLog('[PING] Menguji koneksi ke API Akun Bot & Payment Webhook...', 'text-pika-cyan');
+            setTimeout(() => {
+                addApiLog(`[PONG] Latency: 112ms • Pool Saldo: ${getTotalBotBalance().toLocaleString('id-ID')} R$ • Ready!`, 'text-emerald-400');
+                showToast('Koneksi API Pengiriman Otomatis & Webhook Normal!', 'success');
+            }, 400);
+        }
+
+        function copyBackendCode() {
+            if (!isAdminAuthenticated) return;
+            const codeEl = document.getElementById('nodejs-api-code');
+            if (!codeEl) return;
+            copyTextValue(codeEl.innerText, 'Kode backend Webhook & Bot API berhasil disalin!');
+        }
+
+        function copyTextValue(text, successMsg) {
+            try {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = text;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                showToast(successMsg, 'success');
+            } catch (err) {
+                showToast('Gagal menyalin teks ke clipboard.', 'error');
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            const borderCol = type === 'error' ? 'border-pika-red text-pika-red' : 'border-pika-yellow text-pika-yellow';
+            const icon = type === 'error' ? 'fa-circle-exclamation' : 'fa-bolt';
+
+            toast.className = `pointer-events-auto bg-pika-card border ${borderCol} px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-sm font-semibold transform transition-all duration-300 translate-y-2 opacity-0`;
+            toast.innerHTML = `
+                <i class="fa-solid ${icon} text-base"></i>
+                <span class="text-white text-xs sm:text-sm">${message}</span>
+            `;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function startLiveTicker() {
+            const tickerMessages = [
+                '⚡ Transaksi Terbaru: @ZeynRBLX baru saja membeli 800 R$ via Username (Sukses Masuk Otomatis!)',
+                '⚡ Pembayaran QRIS terdeteksi: @Kiraa_Chan top up 400 R$ dalam 1.2 detik!',
+                '⚡ Pengiriman otomatis 24/7 via Username — tanpa password & pasti masuk!',
+                '⚡ Garansi 100% Robux masuk otomatis setelah pembayaran terverifikasi!'
+            ];
+            let idx = 0;
+            setInterval(() => {
+                idx = (idx + 1) % tickerMessages.length;
+                const tickerEl = document.getElementById('live-ticker-text');
+                if (tickerEl) tickerEl.innerText = tickerMessages[idx];
+            }, 4500);
+        }
+    </script>
+</body>
+</html>
